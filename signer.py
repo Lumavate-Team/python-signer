@@ -54,6 +54,9 @@ class Signer:
     if signature.get('s-time') is None:
       signing_errors.append('Missing signing timestamp')
 
+    if signature.get('s-hash') != parsed_query.get('s-hash')[0]:
+      signing_errors.append('Hash does not match')
+
     try:
       signed_time = int(signature.get('s-time'))
       now = int(time.time())
@@ -143,5 +146,6 @@ class Signer:
       signed_url = url + '?' + additional_query_string
 
     additional_query['s-url'] = signed_url
+    additional_query['s-hash'] = body_md5
     return additional_query
 
