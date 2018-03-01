@@ -54,7 +54,7 @@ class Signer:
     if signature.get('s-time') is None:
       signing_errors.append('Missing signing timestamp')
 
-    if signature.get('s-hash') != parsed_query.get('s-hash')[0]:
+    if 's-hash' in parsed_query and signature.get('s-hash') != parsed_query.get('s-hash')[0]:
       signing_errors.append('Hash does not match')
 
     try:
