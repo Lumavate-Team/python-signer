@@ -35,7 +35,7 @@ class Signer:
   def get_signing_errors(self, method, url, body, headers):
     """Calculate the signature and compare to the given signature, returning errors if needed"""
     parsed_url = urllib.parse.urlparse(url)
-    parsed_query = urllib.parse.parse_qs(parsed_url.query)
+    parsed_query = urllib.parse.parse_qs(parsed_url.query, keep_blank_values=True)
     signature = self.get_signature( \
         method,
         url,
@@ -102,7 +102,7 @@ class Signer:
     body_md5 = hasher.hexdigest()
 
     parsed_url = urllib.parse.urlparse(url)
-    parsed_query = urllib.parse.parse_qs(parsed_url.query)
+    parsed_query = urllib.parse.parse_qs(parsed_url.query, keep_blank_values=True)
 
     # For the sake of checking a signature, remove these calculated
     # parameters from the existing query string
