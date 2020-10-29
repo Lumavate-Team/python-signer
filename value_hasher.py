@@ -1,3 +1,4 @@
+import json
 from hashlib import blake2b
 from hmac import compare_digest
 
@@ -18,7 +19,7 @@ class ValueHasher:
       self.private_key = private_key
 
   def sign(self, value):
-    h = blake2b(digest_size=self.AUTH_SIZE, key=self.private_key)
+    h = blake2b(digest_size=self.AUTH_SIZE, key=self.private_key.encode('utf-8'))
 
     if isinstance(value, (bytes, bytearray)):
       h.update(value)
