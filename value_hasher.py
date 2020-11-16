@@ -14,7 +14,9 @@ class ValueHasher:
     if isinstance(value, (bytes, bytearray)):
       h.update(value)
     elif isinstance(value, dict):
-      h.update(json.dumps(value).encode('utf-8'))
+      sorted_value = self.__get_sorted_dict(value)
+      encoded_value = json.dumps(sorted_value).encode('utf-8')
+      h.update(encoded_value)
     elif value is None:
       h.update(''.encode('utf-8'))
     else:
@@ -23,5 +25,14 @@ class ValueHasher:
     return h.hexdigest() #.encode('utf-8')
 
   def verify(self, value, signature):
-    good_signature = self.sign(value)
+    good_signature = self.sign(value).encode('utf-8')
     return compare_digest(good_signature, signature)
+
+  def __get_sorted_dict(self, value):
+    result = {}
+    for k, v in sorted(value.items()):
+      if isinstance(v, dict):
+        result[k] = self.__get_sorted_dict(v)
+      else:
+        result[k] = v
+    return result
