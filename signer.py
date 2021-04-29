@@ -156,6 +156,7 @@ class Signer:
     additional_query_string = '&'.join(
         [k + '=' + urllib.parse.quote_plus(str(additional_query[k])) for k in additional_query])
 
+    url = url.replace('+', '%2B')
     if '?' in url:
       signed_url = url + '&' + additional_query_string
     else:
