@@ -41,7 +41,7 @@ class ValueHasher:
 
   def __get_sorted_list(self, value):
     result = []
-    for val in sorted(value):
+    for val in sorted(value, key=lambda item: json.dumps(item) if isinstance(item, dict) else item):
       if isinstance(val, dict):
         result.append(self.__get_sorted_dict(val))
       elif isinstance(val,list):
