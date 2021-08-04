@@ -89,6 +89,7 @@ class Signer:
     """Calculate a request signature based on given context"""
     # pylint: disable=too-many-branches,unused-argument
     hasher = hashlib.md5()
+    url = url.replace('+', '%2B')
 
     if isinstance(body, (bytes, bytearray)):
       hasher.update(body)
@@ -156,7 +157,6 @@ class Signer:
     additional_query_string = '&'.join(
         [k + '=' + urllib.parse.quote_plus(str(additional_query[k])) for k in additional_query])
 
-    url = url.replace('+', '%2B')
     if '?' in url:
       signed_url = url + '&' + additional_query_string
     else:
