@@ -33,19 +33,6 @@ class ValueHasher:
     for k, v in sorted(value.items()):
       if isinstance(v, dict):
         result[k] = self.__get_sorted_dict(v)
-      elif isinstance(v,list):
-        result[k] = self.__get_sorted_list(v)
       else:
         result[k] = v
     return result
-
-  def __get_sorted_list(self, value):
-    result = []
-    for val in sorted(value, key=lambda item: json.dumps(item) if isinstance(item, dict) else item):
-      if isinstance(val, dict):
-        result.append(self.__get_sorted_dict(val))
-      elif isinstance(val,list):
-        result.append(self.__get_sorted_list(val))
-      else:
-        result.append(val)
-
