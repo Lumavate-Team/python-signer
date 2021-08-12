@@ -89,7 +89,6 @@ class Signer:
     """Calculate a request signature based on given context"""
     # pylint: disable=too-many-branches,unused-argument
     hasher = hashlib.md5()
-    url = url.replace('+', '%2B')
 
     if isinstance(body, (bytes, bytearray)):
       hasher.update(body)
