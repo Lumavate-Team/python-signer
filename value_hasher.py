@@ -49,3 +49,4 @@ class ValueHasher:
       else:
         result.append(val)
 
+    return result
