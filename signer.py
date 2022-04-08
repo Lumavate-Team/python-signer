@@ -7,7 +7,6 @@ import json
 import time
 import hmac
 import base64
-import pyro
 
 try:
   from flask import request
@@ -80,7 +79,8 @@ class Signer:
 
   def get_request_signing_errors(self):
     """Check if the current request (in context) has been properly signed"""
-    derived_url = request.url.replace(request.host, pyro.Request.ExperienceCloud.get_host_from_headers(request))
+    forward_host = next((value for (key, value) in request.headers if key.lower() == 'x-forwarded-host'), None)
+    derived_url = request.url.replace(request.host, forward_host) if forward_host else request.url
     return self.get_signing_errors(
         request.method.lower(),
         derived_url,
