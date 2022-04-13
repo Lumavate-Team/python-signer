@@ -80,13 +80,8 @@ class Signer:
   def get_request_signing_errors(self):
     """Check if the current request (in context) has been properly signed"""
     forward_host = next((value for (key, value) in request.headers if key.lower() == 'x-forwarded-host'), None)
-    print('signing values',flush=True)
-    print(request.url,flush=True)
     derived_url = request.url.replace(request.host, forward_host) if forward_host else request.url
-    print(derived_url,flush=True)
-    print(request.method.lower(), flush=True)
-    print(request.get_data(),flush=True)
-    print(request.headers, flush=True)
+    
     return self.get_signing_errors(
         request.method.lower(),
         derived_url,
