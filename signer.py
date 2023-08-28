@@ -130,6 +130,7 @@ class Signer:
 
     full_parms = {}
     for parm in parsed_query:
+      parsed_query[parm] = [urllib.parse.quote_plus(v) for v in parsed_query[parm]]
       full_parms[parm] = ','.join(parsed_query[parm])
 
     for parm in additional_query:
